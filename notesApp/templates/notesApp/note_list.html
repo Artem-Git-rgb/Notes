@@ -68,7 +68,8 @@
                     <div class="note-class">
                         <h3>{{ note.title }} <br></h3>
                         {{ note.content }} <br>
-                        {{ note.created_at }}
+                        {{ note.created_at }}<br>
+                        {{ note.action_dt }}
                     </div>
                 {% endfor %}
         </div>
@@ -103,24 +104,30 @@
 
     <div id="overlay" onclick="hidePopup()"></div>
     <div id="popup">
-         <h2>Введите данные</h2>
+         <h2>Новая заметка</h2>
          <form action="/save/" method="post">
                 {% csrf_token %}
-                <label for="title">Название</label>
-                <input type="text" id="title" name="title" required><br><br>
+                <input type="text" id="title" name="title" required placeholder="Название" maxlength="100" class="forminputtext"><br><br>
+                <textarea id="content" name="content" required placeholder="Содержание" maxlength="400" class="forminputcontent"></textarea><br><br>
+                <input type="text" id="action_dt" name="action_dt"  placeholder="Дата события *" maxlength="400"  class="forminputtext" title="Если заметка запланирована на будущее, при наступлении даты заметка отобразится на вкладке Временные"><br><br>
 
-                <label for="content">Содержание</label>
-                <input type="text" id="content" name="content" required><br><br>
-
-                <button type="submit">Сохранить</button>
+                <a onclick="shiftFaws();return false;">
+                    <div class="favs">
+                    <img id="favimg" name="favimg" src="/static/img/star_0.png" class="favs-img"/>
+                    </div>
+                </a>
+                <input type="hidden" id="hid_fav" name="hid_fav">
+                <button type="submit" class="forminputsave">Сохранить</button>
         </form>
     </div>
 
 
+
     <!-- footer -->
     <footer class = 'footer-class'>
-        <h2>ПОДВАЛ: Больше заметок нет</h2>
+        <h2>Больше заметок нет</h2>
     </footer>
+
 
 <!-- the end -->
 
@@ -189,5 +196,17 @@ function openSection(evt, sectionName) {
         window.open("/add", "_blank");
     }
 
+    function shiftFaws() {
+        if (document.getElementById("hid_fav").value == 'true') {
 
+            document.getElementById("hid_fav").value = 'false';
+            document.getElementById("favimg").src = "/static/img/star_0.png";
+
+        } else {
+
+            document.getElementById("hid_fav").value = 'true';
+            document.getElementById("favimg").src = "/static/img/star_1.png";
+
+        }
+    }
 </script>

@@ -173,3 +173,34 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
+
+.favs{
+    margin: 0px 20px 30px 20px;
+    height: 50px;
+    width: 50px;
+
+}
+.favs-img{
+    height: 30px;
+    width: 30px;
+
+}
+.forminputtext {
+    font-size: 1.3em;
+    margin: 4px 20px 4px 20px;
+    padding: 2px 6px 2px 6px;
+    width: 330px;
+}
+
+.forminputcontent{
+    font-size: 1.7em;
+    margin: 4px 20px 4px 20px;
+    padding: 2px 6px 2px 6px;
+    height: 100px;
+    width: 330px;
+}
+
+.forminputsave {
+    font-size: 1.5em;
+
+}

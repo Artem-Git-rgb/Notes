@@ -6,7 +6,7 @@ class Note(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_favorite = models.BooleanField(default=0)
-    is_temporary = models.BooleanField(default=False)
+    action_dt = models.TextField()
     is_last = models.BooleanField(default=False)
     is_in_recycle = models.BooleanField(default=False)
     last_update = models.DateTimeField(auto_now_add=True)
