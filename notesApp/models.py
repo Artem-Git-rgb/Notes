@@ -9,4 +9,5 @@ class Note(models.Model):
     action_dt = models.TextField()
     is_last = models.BooleanField(default=False)
     is_in_recycle = models.BooleanField(default=False)
-    last_update = models.DateTimeField(auto_now_add=True)
+    last_update = models.TextField()
+    #models.TextField(models.DateTimeField(auto_now_add=True))

@@ -39,6 +39,9 @@
     background: rgb(240, 240, 240);
 }
 
+
+
+
 .note-class{
     background: rgb(250, 225, 250);
     width: 46%;
@@ -49,7 +52,12 @@
     padding-left: 20px;
     padding-top: 0px;
     display: inline-block;
+    vertical-align: top;
 }
+
+
+
+
 
 .create-class{
     background: rgb(200, 200, 200);
@@ -124,10 +132,6 @@
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    /* position: fixed;
-    top: 0;
-    left: 0;
-    */
     width: 100%;
     position: -webkit-sticky; // Для поддержки Safari
     position: sticky;
@@ -183,8 +187,46 @@
 .favs-img{
     height: 30px;
     width: 30px;
-
 }
+
+
+/* В ЗАМЕТКЕ */
+.left-note-content{
+    display: inline-block;
+    width: 95%;
+}
+
+.right-note-content{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 20px;
+    height: 80px;
+}
+
+.right-favs-img{
+    height: 30px;
+    width: 30px;
+    margin-bottom: 15px;
+    opacity: 70%;
+}
+.right-favs-img:hover{
+    opacity: 100%;
+}
+
+
+.right-update-img{
+    height: 30px;
+    width: 30px;
+    opacity: 60%;
+}
+.right-update-img:hover {
+    opacity: 100%;
+}
+
+/* УЖЕ НЕ В ЗАМЕТКЕ */
+
+
+
 .forminputtext {
     font-size: 1.3em;
     margin: 4px 20px 4px 20px;
