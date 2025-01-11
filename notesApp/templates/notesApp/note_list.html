@@ -151,7 +151,7 @@
 
         <!-- create note div -->
        <a onclick="createNote();return false;">
-            <div class="create-class">
+            <div class="create-class" id="id_create_div">
                 <h3>Создать заметку</h3>
             </div>
         </a>
@@ -179,7 +179,7 @@
                     </div>
                 </a>
                 <button type="submit" class="forminputsave">Сохранить</button>
-                <input type="hidden" id="hid_fav" name="hid_fav">
+                <input type="text" id="hid_fav" name="hid_fav">
                 <input type="text" id="mode" name="mode">
                 <input type="text" id="note_id" name="note_id">
         </form>
@@ -196,19 +196,22 @@
 <!-- the end -->
 
 <script>
-function openSection(evt, sectionName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+
+
+
+    function openSection(evt, sectionName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(sectionName).style.display = "block";
+        evt.currentTarget.className += " active";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(sectionName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
 
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
@@ -218,24 +221,69 @@ function openSection(evt, sectionName) {
     function test() {
         alert( "Привет" );
     }
+
+
+
+
+
+
 </script>
 
 
 
 </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
     function createNote() {
         document.getElementById('mode').value = 'create';
         document.getElementById('note_id').value = 0;
 
+        //#$("#id_create_div").text("your text");
+
+
         showPopup();
     }
+
 
     function updateNote(id) {
         document.getElementById('mode').value = 'update';
         document.getElementById('note_id').value = id;
+
+        $(document).ready(function() {
+            $.ajax({
+                url: 'note/xml/' + id + '/', // Укажите ваш URL
+                type: 'GET',
+                dataType: 'xml',
+                success: function(data) {
+                    // Получаем значения тегов
+                    var title = $(data).find('Title').text();
+                    var content = $(data).find('Content').text();
+                    var action_dt = $(data).find('Action_dt').text();
+                    var is_favorite = $(data).find('Is_favorite').text();
+
+                    // Выводим значения на страницу
+                    $('#title').val(title);
+                    $('#content').val(content);
+                    $('#action_dt').val(action_dt);
+
+                    if (is_favorite == '1') {
+                        // 222
+                        document.getElementById("favimg").src = "/static/img/star_1.png";
+                        document.getElementById("hid_fav").value = '1';
+                    } else {
+                        document.getElementById("favimg").src = "/static/img/star_0.png";
+                        document.getElementById("hid_fav").value = '0';
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ошибка при загрузке XML:', error);
+                }
+            });
+        });
+
 
         showPopup();
     }
@@ -244,9 +292,9 @@ function openSection(evt, sectionName) {
 
       function showPopup() {
 
-        if document.getElementById('mode').value == 'create' {
+        if (document.getElementById('mode').value == 'create') {
             // создание новой заметки. Очищаем поля
-        } elseif document.getElementById('mode').value == 'update' {
+        } else if (document.getElementById('mode').value == 'update') {
             // изменение заметки. Очищаем поля и заполняем значениями
         }
 
@@ -283,14 +331,14 @@ function openSection(evt, sectionName) {
     }
 
     function shiftFaws() {
-        if (document.getElementById("hid_fav").value == 'true') {
+        if (document.getElementById("hid_fav").value == '1') {
 
-            document.getElementById("hid_fav").value = 'false';
+            document.getElementById("hid_fav").value = '0';
             document.getElementById("favimg").src = "/static/img/star_0.png";
 
         } else {
 
-            document.getElementById("hid_fav").value = 'true';
+            document.getElementById("hid_fav").value = '1';
             document.getElementById("favimg").src = "/static/img/star_1.png";
 
         }

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+{% for note in noteInfo %}
+<NoteInfo NoteId="{{ note.id }}" >
+    <Title>{{ note.title }}</Title>
+    <Content>{{ note.content }}</Content>
+</NoteInfo>
+{% endfor %}

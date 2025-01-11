@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+import xml.etree.ElementTree as ET
 from .models import Note
 from .forms import NoteForm
 
@@ -32,16 +35,68 @@ def save_note(request):
     # return redirect('/succc111')  # Перенаправляем на страницу успеха
 
     if request.method == 'POST':
+        note_id = request.POST.get('note_id')
         title = request.POST.get('title')
         content = request.POST.get('content')
         action_dt = request.POST.get('action_dt')
-        is_fav = bool(request.POST.get('hid_fav'))
+        is_fav = request.POST.get('hid_fav')
 
+        mode = request.POST.get('mode')
 
-        # Создаем новую запись в базе данных
-        note = Note(title=title, content=content, action_dt=action_dt, is_favorite=is_fav)
-        note.save()
+        if (mode == 'create'):
+            # Создаем новую запись в базе данных
+            note = Note(title=title, content=content, action_dt=action_dt, is_favorite=is_fav)
+            note.save()
+
+        if (mode == 'update'):
+            # Обновляем запись в базе данных
+            note = Note.objects.get(id=note_id)
+            note.title = title
+            note.content = content
+            note.action_dt = action_dt
+            note.is_favorite = int(is_fav)
+            note.save()
+
 
         return redirect('/')  # Перенаправляем на страницу успеха
 
     return render(request, 'note_list.html')  # Отображаем форму при GET запросе
+
+
+def test_page(request):
+    return HttpResponse("Hello")
+
+
+def get_info(request, id):
+
+    # Получаем объект по ID
+    note_instance = get_object_or_404(Note, id=id)
+
+    # Создаем XML-структуру
+    root = ET.Element('Note')
+    id1 = ET.SubElement(root, 'id')
+    id1.text = str(note_instance.id)
+    name = ET.SubElement(root, 'Title')
+    name.text = note_instance.title
+    description = ET.SubElement(root, 'Content')
+    description.text = note_instance.content
+    is_favorite = ET.SubElement(root, 'Is_favorite')
+    is_favorite.text = str(note_instance.is_favorite)
+    action_dt = ET.SubElement(root, 'Action_dt')
+    action_dt.text = note_instance.action_dt
+
+
+    """
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_favorite = models.BooleanField(default=0)
+    action_dt = models.TextField()
+    is_last = models.BooleanField(default=False)
+    is_in_recycle = models.BooleanField(default=False)
+    last_update = models.TextField()
+    """
+
+    # Преобразуем дерево в строку
+    xml_str = ET.tostring(root, encoding='unicode')
+
+    # Возвращаем ответ с правильным заголовком
+    return HttpResponse(xml_str, content_type='application/xml')
