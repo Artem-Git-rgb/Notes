@@ -182,6 +182,7 @@
                 <input type="text" id="hid_fav" name="hid_fav">
                 <input type="text" id="mode" name="mode">
                 <input type="text" id="note_id" name="note_id">
+                <input type="text" id="img_name" name="img_name">
         </form>
     </div>
 
@@ -236,7 +237,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
+    function clearNote() {
+        document.getElementById('mode').value = 'clear';
+        document.getElementById('title').value = '';
+        document.getElementById('content').value = '';
+        document.getElementById('action_dt').value = '';
+        document.getElementById('hid_fav').value = '';
+        document.getElementById('favimg').src = "/static/img/star_0.png";
+    }
+
     function createNote() {
+        clearNote();
         document.getElementById('mode').value = 'create';
         document.getElementById('note_id').value = 0;
 
@@ -248,6 +259,8 @@
 
 
     function updateNote(id) {
+        clearNote();
+        
         document.getElementById('mode').value = 'update';
         document.getElementById('note_id').value = id;
 
@@ -262,11 +275,13 @@
                     var content = $(data).find('Content').text();
                     var action_dt = $(data).find('Action_dt').text();
                     var is_favorite = $(data).find('Is_favorite').text();
+                    var img_name = $(data).find('Img_name').text();
 
                     // Выводим значения на страницу
                     $('#title').val(title);
                     $('#content').val(content);
                     $('#action_dt').val(action_dt);
+                    $('#img_name').val(img_name);
 
                     if (is_favorite == '1') {
                         // 222

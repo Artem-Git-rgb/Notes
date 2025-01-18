@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 import xml.etree.ElementTree as ET
-from .models import Note
+from .models import Note, Image
 from .forms import NoteForm
 
 
@@ -47,8 +47,7 @@ def save_note(request):
             # Создаем новую запись в базе данных
             note = Note(title=title, content=content, action_dt=action_dt, is_favorite=is_fav)
             note.save()
-
-        if (mode == 'update'):
+        elif (mode == 'update'):
             # Обновляем запись в базе данных
             note = Note.objects.get(id=note_id)
             note.title = title
@@ -56,6 +55,8 @@ def save_note(request):
             note.action_dt = action_dt
             note.is_favorite = int(is_fav)
             note.save()
+        else:
+            print('save_note: mode not defined!')
 
 
         return redirect('/')  # Перенаправляем на страницу успеха
@@ -71,6 +72,7 @@ def get_info(request, id):
 
     # Получаем объект по ID
     note_instance = get_object_or_404(Note, id=id)
+    image_instance = get_object_or_404(Image, note_id=id)
 
     # Создаем XML-структуру
     root = ET.Element('Note')
@@ -84,6 +86,8 @@ def get_info(request, id):
     is_favorite.text = str(note_instance.is_favorite)
     action_dt = ET.SubElement(root, 'Action_dt')
     action_dt.text = note_instance.action_dt
+    img_name = ET.SubElement(root, 'Img_name')
+    img_name.text = str(image_instance.file_name)
 
 
     """
