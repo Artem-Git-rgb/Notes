@@ -12,7 +12,7 @@
 - ?! выложить всё на хостинг 
 - наложение звёздочек и карандашей
 - логотип
-- изменить подсказку при изменении заметки
+
 
 
 ++ - звездочки в списке заметок
@@ -22,3 +22,15 @@
 ++		- функция редактирования
 ++	++- заполнение Форму существующими данными
 ++	++- ! сохранение Формы
+++ изменить подсказку при изменении заметки
+
+
+
+ title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.TextField()
+    is_favorite = models.IntegerField()
+    is_in_recycle = models.IntegerField()
+    is_last = models.IntegerField()
+    action_dt = models.TextField(blank=True, null=True)
+    last_update = models.TextField()
