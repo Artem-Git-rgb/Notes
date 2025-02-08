@@ -168,23 +168,33 @@
     <div id="popup">
         <h2><span id="action_name">Новая заметка</span></h2>
          <form action="/save/" method="post">
-                {% csrf_token %}
-                <input type="text" id="title" name="title" required placeholder="Название" maxlength="100" class="forminputtext"><br><br>
-                <textarea id="content" name="content" required placeholder="Содержание" maxlength="400" class="forminputcontent"></textarea><br><br>
-                <input type="text" id="action_dt" name="action_dt"  placeholder="Дата события (i)" maxlength="400"  class="forminputtext" title="Если заметка запланирована на будущее, при наступлении даты заметка отобразится на вкладке Временные"><br><br>
+                <div class="span_in_line">
+                    {% csrf_token %}
+                    <input type="text" id="title" name="title" required placeholder="Название" maxlength="100" class="forminputtext"><br><br>
+                    <textarea id="content" name="content" required placeholder="Содержание" maxlength="400" class="forminputcontent"></textarea><br><br>
+                    <input type="text" id="action_dt" name="action_dt"  placeholder="Дата события (i)" maxlength="400"  class="forminputtext" title="Если заметка запланирована на будущее, при наступлении даты заметка отобразится на вкладке Временные"><br><br>
 
-                <a onclick="shiftFaws();return false;">
-                    <div class="favs">
-                    <img id="favimg" name="favimg" src="/static/img/star_0.png" class="favs-img"/>
+                    <a onclick="shiftFaws();return false;">
+                        <div class="favs">
+                        <img id="favimg" name="favimg" src="/static/img/star_0.png" class="favs-img"/>
+                        </div>
+                    </a>
+                    <button type="submit" class="forminputsave">Сохранить</button>
+                    <input type="text" id="hid_fav" name="hid_fav" class="tmp_hid">
+                    <input type="text" id="mode" name="mode" class="tmp_hid">
+                    <input type="text" id="note_id" name="note_id" class="tmp_hid">
+                    <input type="text" id="img_name" name="img_name" class="tmp_hid">
+                </div>
+                <div class="span_in_line">
+                    <input type=file name=file>
+                    <div>
+                        <img id="img_in_note" name="img_in_note" src="" class="img_in_note"/>
+
                     </div>
-                </a>
-                <button type="submit" class="forminputsave">Сохранить</button>
-                <input type="text" id="hid_fav" name="hid_fav">
-                <input type="text" id="mode" name="mode">
-                <input type="text" id="note_id" name="note_id">
-                <input type="text" id="img_name" name="img_name">
+                </div>
         </form>
     </div>
+
 
 
 

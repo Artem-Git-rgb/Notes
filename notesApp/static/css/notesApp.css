@@ -224,9 +224,19 @@
 }
 
 /* УЖЕ НЕ В ЗАМЕТКЕ */
+.span_in_line{
+    display: inline-block;
+    vertical-align: top;
 
+}
+.tmp_hid{
+    width: 70px;
+}
 
-
+.img_in_note{
+    width: 250px;
+    height: 250px;
+}
 .forminputtext {
     font-size: 1.3em;
     margin: 4px 20px 4px 20px;
