@@ -24,6 +24,10 @@
             <button class="tablinks" onclick="openSection(event, 'Recycle')">Корзина</button>
 
             <!-- https://html5css.ru/howto/howto_js_tabs.php        как сделать вкладки!!   -->
+
+
+
+
         </div>
 
         <div id="All" class="tabcontent">
@@ -32,9 +36,22 @@
                     <div class="note-class">
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
-                            {{ note.content }} <br>
-                            {{ note.created_at }}<br>
-                            {{ note.last_update }}
+                            <span class="span-content">
+                                {{ note.content }} <br>
+                            </span>
+                            <p> </p>
+                            <span class="span-gray">
+                                {{  "создана: " }}
+                                {{ note.created_at }}<br>
+                            </span>
+                            {% if note.last_update %}
+                                <span class="span-gray">
+                                    {{  "изменена: " }}
+                                    {{ note.last_update }}
+                                </span>
+                            {% else %}
+                                {{ "&nbsp; " }}
+                            {% endif %}
                         </div>
                         <div class="right-note-content">
                             {% if note.is_favorite %}
@@ -58,9 +75,22 @@
                     <div class="note-class">
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
-                            {{ note.content }} <br>
-                            {{ note.created_at }}<br>
-                            {{ note.last_update }}
+                            <span class="span-content">
+                                {{ note.content }} <br>
+                            </span>
+                            <p> </p>
+                            <span class="span-gray">
+                                {{  "создана: " }}
+                                {{ note.created_at }}<br>
+                            </span>
+                            {% if note.last_update %}
+                                <span class="span-gray">
+                                    {{  "изменена: " }}
+                                    {{ note.last_update }}
+                                </span>
+                            {% else %}
+                                {{ "&nbsp; " }}
+                            {% endif %}
                         </div>
                         <div class="right-note-content">
                             {% if note.is_favorite %}
@@ -83,9 +113,22 @@
                     <div class="note-class">
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
-                            {{ note.content }} <br>
-                            {{ note.created_at }}<br>
-                            {{ note.last_update }}
+                            <span class="span-content">
+                                {{ note.content }} <br>
+                            </span>
+                            <p> </p>
+                            <span class="span-gray">
+                                {{  "создана: " }}
+                                {{ note.created_at }}<br>
+                            </span>
+                            {% if note.last_update %}
+                                <span class="span-gray">
+                                    {{  "изменена: " }}
+                                    {{ note.last_update }}
+                                </span>
+                            {% else %}
+                                {{ "&nbsp; " }}
+                            {% endif %}
                         </div>
                         <div class="right-note-content">
                             {% if note.is_favorite %}
@@ -106,9 +149,24 @@
                     <div class="note-class">
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
-                            {{ note.content }} <br>
-                            {{ note.created_at }}<br>
-                            {{ note.last_update }}<br>
+                            <span class="span-content">
+                                {{ note.content }} <br>
+                            </span>
+                            <p> </p>
+                            <span class="span-gray">
+                                {{  "создана: " }}
+                                {{ note.created_at }}<br>
+                            </span>
+                            {% if note.last_update %}
+                                <span class="span-gray">
+                                    {{  "изменена: " }}
+                                    {{ note.last_update }}
+                                </span>
+                            {% else %}
+                                {{ "&nbsp; " }}
+                            {% endif %}
+                            <p> </p>
+                            {{  "дата события: " }}
                             <h4>{{ note.action_dt }}</h4>
                         </div>
                         <div class="right-note-content">
@@ -131,9 +189,22 @@
                     <div class="note-class">
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
-                            {{ note.content }} <br>
-                            {{ note.created_at }}<br>
-                            {{ note.last_update }}<br>
+                            <span class="span-content">
+                                {{ note.content }} <br>
+                            </span>
+                            <p> </p>
+                            <span class="span-gray">
+                                {{  "создана: " }}
+                                {{ note.created_at }}<br>
+                            </span>
+                            {% if note.last_update %}
+                                <span class="span-gray">
+                                    {{  "изменена: " }}
+                                    {{ note.last_update }}
+                                </span>
+                            {% else %}
+                                {{ "&nbsp; " }}
+                            {% endif %}
                         </div>
                         <div class="right-note-content">
                             {% if note.is_favorite %}
@@ -146,6 +217,13 @@
                     </div>
                 {% endfor %}
         </div>
+
+
+
+
+
+
+
 
 
 
