@@ -59,7 +59,7 @@
     height: 47px;
     margin-top: 0px;
     display: inline-block;
-    margin-left: 10px;
+    margin-left: 0px;
     text-align: center;
 
 }
@@ -75,11 +75,15 @@
     margin-right: 10px;
     display: inline-block;
     text-align: center;
+    min-width: 180px;
 
     display: flex;
     flex-direction: column;
     justify-content: left;
 }
+
+
+
 
 
 .main-body-class{
