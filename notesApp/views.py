@@ -5,59 +5,13 @@ import xml.etree.ElementTree as ET
 from .models import Note, Image
 from .forms import NoteForm
 
-
-
-"""
-from flask import Flask, request, render_template, redirect
-from werkzeug.utils import secure_filename
-from PIL import Image
-import os
-"""
+from django.shortcuts import render
 
 """
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads/' # Директория для хранения изображений
-app.secret_key = "46324gf36r623rt" # Замените на ваш секретный ключ
-
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-            # Опционально: изменение размера изображения с помощью Pillow
-            try:
-                img = Image.open(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                img.thumbnail((128, 128)) # Изменяем размер на 128x128 пикселей, сохраняя пропорции
-                img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            except IOError as e:
-                print(f"Ошибка обработки изображения: {e}")
-
-            return redirect('/success')
-    return render_template('upload.html')
-
-
-@app.route('/success')
-def success():
-    return "Файл успешно загружен!"
-
-if __name__ == '__main__':
-    app.run(debug=True)
+def search(request):
+    query = request.GET.get('q')
+    results = Note.objects.filter(title__icontains=query)  # Поиск по полю 'title'
+    return render(request, 'search_results.html', {'results': results, 'query': query})
 
 """
 
@@ -81,9 +35,17 @@ def note_list(request):
     notesTemp = Note.objects.exclude(action_dt='').order_by('-action_dt') #111
     notesLast = Note.objects.filter(is_last=1).order_by('-last_update').order_by('-created_at')
     notesRec = Note.objects.filter(is_in_recycle=1)
+
+
+   # results = Note.objects.filter(title__icontains=query)  # Поиск по полю 'title'
+   # return render(request, 'search_results.html', {'results': results, 'query': query})
+
     return render(request, 'notesApp/note_list.html',
-                  {'notes': notes, 'notesDesc': notesDesc, 'notesFavs': notesFavs, 'notesTemp': notesTemp,
-                   'notesLast': notesLast, 'notesRec': notesRec})
+              {'notes': notes, 'notesDesc': notesDesc, 'notesFavs': notesFavs, 'notesTemp': notesTemp,
+               'notesLast': notesLast, 'notesRec': notesRec})
+
+
+
 
 
 def save_note(request):
@@ -115,21 +77,6 @@ def save_note(request):
 
         # Сохраняем картинку
         #if count(request.FILES) > 0:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         return redirect('/')  # Перенаправляем на страницу успеха
@@ -184,3 +131,22 @@ def get_info(request, id):
 
     # Возвращаем ответ с правильным заголовком
     return HttpResponse(xml_str, content_type='application/xml')
+
+
+
+
+def search(request):
+    query = request.GET.get('q', '') # Получаем поисковый запрос
+    if query:
+        # ... ваш код поиска (например, с использованием Haystack или filter) ...
+        results = Note.objects.filter(title__icontains=query).order_by('-last_update').order_by('-created_at')
+
+        return render(request, 'search_results.html', {'results': results, 'query': query})
+
+
+    else:
+        return render(request, 'search_results.html') # Возвращаем пустой шаблон, если запроса нет
+
+
+
+

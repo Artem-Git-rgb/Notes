@@ -13,7 +13,21 @@
         <div class="logo-class">
             <img id="logo" name="logo" src="/static/img/logo_notes_3.png" width="80px" height="80px"/>
         </div>
-        <div class="search-class"><h1>ПОИСК</h1></div>
+
+
+        <div class="search-class">
+            <form id="search-form">
+              <input class="search-class-area" type="text" id="search-input" name="q" placeholder="Поиск...">
+              <button class="search-class-button" type="submit">Найти</button>
+            </form>
+
+
+
+
+    </div>
+
+
+        </div>
         <div class="account-class"><h1>АККАУНТ</h1></div>
     </header>
     <!-- main-body -->
@@ -24,8 +38,8 @@
             <button class="tablinks" onclick="openSection(event, 'Last')">Последние</button>
             <button class="tablinks" onclick="openSection(event, 'Time')">Временные</button>
             <button class="tablinks" onclick="openSection(event, 'Recycle')">Корзина</button>
-
-            <!-- https://html5css.ru/howto/howto_js_tabs.php        как сделать вкладки!!   -->
+            <button class="tablinks" onclick="openSection(event, 'tabSearch')" id="buttonSearch">Поиск</button>
+            <!-- https://html5css.ru/howto/howto_js_tabs.php   как сделать вкладки!!   -->
 
 
 
@@ -220,6 +234,13 @@
                 {% endfor %}
         </div>
 
+        <div id="tabSearch" class="tabcontent">
+
+            <div id="search-results">
+              <!-- Сюда будут загружены результаты поиска -->
+            </div>
+
+        </div>
 
 
 
@@ -451,6 +472,41 @@
 
         }
     }
+
+
+
+    $(document).ready(function() {
+
+      $("#search-form").submit(function(event) {
+        event.preventDefault(); // Предотвращаем обычную отправку формы
+
+        var query = $("#search-input").val(); // Получаем текст из input
+
+        $.ajax({
+          url: "/search/", // URL для обработки поиска (замените на ваш URL)
+          type: "GET", // Или "POST", в зависимости от вашего представления
+          data: { q: query }, // Передаем поисковый запрос
+          dataType: "html", // Ожидаемый тип данных ответа (может быть "json", "text" и др.)
+          success: function(data) {
+            $("#search-results").html(data); // Вставляем полученный HTML в блок с результатами
+          },
+          error: function(xhr, status, error) {
+            console.error("Ошибка AJAX:", status, error);
+            // Обработка ошибок (например, вывод сообщения об ошибке)
+            $("#search-results").html("<p>Ошибка при выполнении поиска.</p>");
+          }
+        });
+        $("#buttonSearch").show();
+        document.getElementById("buttonSearch").click();
+      });
+
+      $("#buttonSearch").hide();
+      $("#search-input").val('');
+
+
+    });
+
+
 
 
 

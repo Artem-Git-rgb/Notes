@@ -28,19 +28,44 @@
 
 }
 
+
+
 .search-class{
-    background: rgb(200, 200, 200);
-    width: 10%;
+    background: rgb(190, 250, 170);
+    width: 50%;
     height: 80px;
     margin-top: 5px;
     display: inline-block;
-    margin-right: 10px;
     text-align: center;
 
     display: flex;
     flex-direction: column;
-    justify-content: right;
+    justify-content: left;
 }
+
+.search-class-area{
+    background: rgb(255, 255, 255);
+    width: 70%;
+    height: 40px;
+    margin-top: 16px;
+    display: inline-block;
+    text-align: center;
+
+}
+
+.search-class-button{
+    background: rgb(200, 200, 200);
+    width: 70px;
+    height: 47px;
+    margin-top: 0px;
+    display: inline-block;
+    margin-left: 10px;
+    text-align: center;
+
+}
+
+
+
 
 .account-class{
     background: rgb(200, 200, 200);

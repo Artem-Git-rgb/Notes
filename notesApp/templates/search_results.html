@@ -1,0 +1,42 @@
+{% if query %}
+  <h2>Результаты поиска для "{{ query }}"</h2>
+  <ul>
+    {% for note in results %}
+                    <div class="note-class">
+                        <div class="left-note-content">
+                            <h3>{{ note.title }} <br></h3>
+                            <span class="span-content">
+                                {{ note.content }} <br>
+                            </span>
+                            <p> </p>
+                            <span class="span-gray">
+                                {{  "создана: " }}
+                                {{ note.created_at }}<br>
+                            </span>
+                            {% if note.last_update %}
+                                <span class="span-gray">
+                                    {{  "изменена: " }}
+                                    {{ note.last_update }}
+                                </span>
+                            {% else %}
+                                {{ "&nbsp; " }}
+                            {% endif %}
+                        </div>
+                        <div class="right-note-content">
+                            {% if note.is_favorite %}
+                                <img id="s-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
+                            {% else %}
+                                <img id="s-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
+                            {% endif %}
+                            <a onclick="updateNote({{note.id}});return false;">
+                                <img id="s-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                            </a>
+                        </div>
+                    </div>
+
+    {% empty %}
+    <li>Ничего не найдено.</li>
+    {% endfor %}
+
+  </ul>
+{% endif %}
