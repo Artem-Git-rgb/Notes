@@ -56,7 +56,7 @@ def save_note(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
         action_dt = request.POST.get('action_dt')
-        is_fav = request.POST.get('hid_fav')
+        is_fav = int(request.POST.get('hid_fav'))
 
         mode = request.POST.get('mode')
 
@@ -70,7 +70,7 @@ def save_note(request):
             note.title = title
             note.content = content
             note.action_dt = action_dt
-            note.is_favorite = int(is_fav)
+            note.is_favorite = is_fav
             note.save()
         else:
             print('save_note: mode not defined!')
@@ -131,8 +131,6 @@ def get_info(request, id):
 
     # Возвращаем ответ с правильным заголовком
     return HttpResponse(xml_str, content_type='application/xml')
-
-
 
 
 def search(request):

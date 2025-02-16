@@ -5,6 +5,13 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/notesApp.css' %}">
     <title>Notes</title>
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" sizes="96x96">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="manifest" href="img/site.webmanifest" />
+
+
 </head>
 <!-- body -->
 <body>
@@ -22,12 +29,9 @@
             </form>
 
 
-
-
     </div>
 
 
-        </div>
         <div class="account-class"><h1>АККАУНТ</h1></div>
     </header>
     <!-- main-body -->
@@ -41,19 +45,20 @@
             <button class="tablinks" onclick="openSection(event, 'tabSearch')" id="buttonSearch">Поиск</button>
             <!-- https://html5css.ru/howto/howto_js_tabs.php   как сделать вкладки!!   -->
 
-
-
-
         </div>
+
+
 
         <div id="All" class="tabcontent">
             <h2>Здесь все заметки</h2>
                 {% for note in notesDesc %}
                     <div class="note-class">
                         <div class="left-note-content">
-                            <h3>{{ note.title }} <br></h3>
+                            <a onclick="viewNote({{note.id}});return false;">
+                                <h3>{{ note.title }} <br></h3>
+                            </a>
                             <span class="span-content">
-                                {{ note.content }} <br>
+                                {{ note.content|truncatechars:260 }} <br>
                             </span>
                             <p> </p>
                             <span class="span-gray">
@@ -69,6 +74,7 @@
                                 {{ "&nbsp; " }}
                             {% endif %}
                         </div>
+
                         <div class="right-note-content">
                             {% if note.is_favorite %}
                                 <img id="a-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
@@ -92,7 +98,7 @@
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
                             <span class="span-content">
-                                {{ note.content }} <br>
+                                {{ note.content|truncatechars:260 }} <br>
                             </span>
                             <p> </p>
                             <span class="span-gray">
@@ -130,7 +136,7 @@
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
                             <span class="span-content">
-                                {{ note.content }} <br>
+                                {{ note.content|truncatechars:260 }} <br>
                             </span>
                             <p> </p>
                             <span class="span-gray">
@@ -152,7 +158,9 @@
                             {% else %}
                                 <img id="f-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
                             {% endif %}
-                            <img id="f-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                             <a onclick="updateNote({{note.id}});return false;">
+                                <img id="f-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                             </a>
                         </div>
                     </div>
                 {% endfor %}
@@ -166,7 +174,7 @@
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
                             <span class="span-content">
-                                {{ note.content }} <br>
+                                {{ note.content|truncatechars:260 }} <br>
                             </span>
                             <p> </p>
                             <span class="span-gray">
@@ -191,7 +199,9 @@
                             {% else %}
                                 <img id="t-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
                             {% endif %}
-                            <img id="t-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                            <a onclick="updateNote({{note.id}});return false;">
+                                <img id="t-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                             </a>
                         </div>
                     </div>
 
@@ -206,7 +216,7 @@
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
                             <span class="span-content">
-                                {{ note.content }} <br>
+                                {{ note.content|truncatechars:260 }} <br>
                             </span>
                             <p> </p>
                             <span class="span-gray">
@@ -228,7 +238,9 @@
                             {% else %}
                                 <img id="r-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
                             {% endif %}
-                            <img id="r-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                            <a onclick="updateNote({{note.id}});return false;">
+                                <img id="r-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                            </a>
                         </div>
                     </div>
                 {% endfor %}
@@ -299,6 +311,40 @@
 
 
 
+    <div id="overlay-view" onclick="hidePopup()"></div>
+    <div id="popup-view">
+        <h2><span id="action_name-view">Просмотр заметки</span></h2>
+            <div class="span_in_line">
+                    {% csrf_token %}
+                <span id="title_view" class="formspantext-title"></span><br><br>
+                <span id="content_view" class="formspantext-content"></span><br><br>
+                <span class="forminputtext" title="Если заметка запланирована на будущее, при наступлении даты заметка отобразится на вкладке Временные"></span><br><br>
+
+
+                    <div class="favs">
+                    <img id="favimg_view" name="favimg" src="/static/img/star_0.png" class="favs-img"/>
+                    </div>
+                    <button onclick="hidePopup()" class="forminputsave">
+                        Закрыть
+                    </button>
+                    <input type="text" id="hid_fav_view" name="hid_fav" class="tmp_hid">
+                    <input type="text" id="mode_view" name="mode" class="tmp_hid">
+                    <input type="text" id="note_id_view" name="note_id" class="tmp_hid">
+                    <input type="text" id="img_name_view" name="img_name" class="tmp_hid">
+                </div>
+                <div class="span_in_line">
+                    <input type=file name=file>
+                    <div>
+                        <img id="img_in_note_view" name="img_in_note" src="" class="img_in_note"/>
+
+                    </div>
+                </div>
+    </div>
+
+
+
+
+
     <!-- footer -->
     <footer class = 'footer-class'>
         <h2>Больше заметок нет</h2>
@@ -353,7 +399,7 @@
         document.getElementById('title').value = '';
         document.getElementById('content').value = '';
         document.getElementById('action_dt').value = '';
-        document.getElementById('hid_fav').value = '';
+        document.getElementById('hid_fav').value = '0';
         document.getElementById('favimg').src = "/static/img/star_0.png";
         document.getElementById('img_name').value = '';
     }
@@ -380,7 +426,7 @@
 
         $(document).ready(function() {
             $.ajax({
-                url: 'note/xml/' + id + '/', // Укажите ваш URL
+                url: 'note/xml/' + id + '/',
                 type: 'GET',
                 dataType: 'xml',
                 success: function(data) {
@@ -419,7 +465,54 @@
 
 
 
-      function showPopup() {
+
+
+    function viewNote(id) {
+        clearNote();
+
+        //document.getElementById('mode').value = 'view';
+        document.getElementById('note_id_view').value = id;
+
+        $(document).ready(function() {
+            $.ajax({
+                url: 'note/xml/' + id + '/',
+                type: 'GET',
+                dataType: 'xml',
+                success: function(data) {
+                    // Получаем значения тегов
+                    var title = $(data).find('Title').text();
+                    var content = $(data).find('Content').text();
+                    var action_dt = $(data).find('Action_dt').text();
+                    var is_favorite = $(data).find('Is_favorite').text();
+                    var img_name = $(data).find('Img_name').text();
+
+                    // Выводим значения на страницу
+                    $('#title_view').html(title);
+                    $('#content_view').html(content);
+                    $('#action_dt_view').html(action_dt);
+                    $('#img_name_view').html(img_name);
+
+                    if (is_favorite == '1') {
+                        document.getElementById("favimg_view").src = "/static/img/star_1.png";
+                        document.getElementById("hid_fav_view").value = '1';
+                    } else {
+                        document.getElementById("favimg_view").src = "/static/img/star_0.png";
+                        document.getElementById("hid_fav_view").value = '0';
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ошибка при загрузке XML:', error);
+                }
+            });
+        });
+
+        showPopup('view');
+
+    }
+
+
+    function showPopup(mode) {
 
         if (document.getElementById('mode').value == 'create') {
             // создание новой заметки. Очищаем поля
@@ -428,32 +521,28 @@
         }
 
 
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('popup').style.display = 'block';
+        //alert(mode);
+
+        if (mode == 'view') {
+                document.getElementById('overlay-view').style.display = 'block';
+                document.getElementById('popup-view').style.display = 'block';
+       } else {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('popup').style.display = 'block';
+       }
     }
 
     function hidePopup() {
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('popup').style.display = 'none';
+
+        document.getElementById('overlay-view').style.display = 'none';
+        document.getElementById('popup-view').style.display = 'none';
     }
 
 
 
-    /*
-    const popupOverlay = document.getElementById("popup-overlay");
-    const popup = document.getElementById("popup");
 
-    function showPopup() {
-      popupOverlay.style.display = "block";
-    }
-
-    function hidePopup() {
-      popupOverlay.style.display = "none";
-    }
-
-    popupOverlay.addEventListener("click", hidePopup);
-    popup.addEventListener("click", (event) = event.stopPropagation());
-    */
 
     function openAddPage() {
         window.open("/add", "_blank");

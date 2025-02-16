@@ -6,7 +6,7 @@
                         <div class="left-note-content">
                             <h3>{{ note.title }} <br></h3>
                             <span class="span-content">
-                                {{ note.content }} <br>
+                                {{ note.content|truncatechars:260 }} <br>
                             </span>
                             <p> </p>
                             <span class="span-gray">
