@@ -30,9 +30,9 @@ def add_note(request):
 
 def note_list(request):
     notes = Note.objects.all()
-    notesDesc = Note.objects.order_by('-created_at')
+    notesDesc = Note.objects.order_by('-created_at').filter(is_in_recycle=0)
     notesFavs = Note.objects.filter(is_favorite=1).order_by('-last_update').order_by('-created_at')
-    notesTemp = Note.objects.exclude(action_dt='').order_by('-action_dt') #111
+    notesTemp = Note.objects.exclude(action_dt='').order_by('-action_dt').filter(is_in_recycle=0) #111
     notesLast = Note.objects.filter(is_last=1).order_by('-last_update').order_by('-created_at')
     notesRec = Note.objects.filter(is_in_recycle=1)
 
@@ -111,6 +111,10 @@ def get_info(request, id):
     is_favorite.text = str(note_instance.is_favorite)
     action_dt = ET.SubElement(root, 'Action_dt')
     action_dt.text = note_instance.action_dt
+
+    is_in_recycle = ET.SubElement(root, 'Is_in_recycle')
+    is_in_recycle.text = str(note_instance.is_in_recycle)
+
 
     if image_instance != None:
         img_name = ET.SubElement(root, 'Img_name')

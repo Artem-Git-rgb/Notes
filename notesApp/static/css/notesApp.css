@@ -291,10 +291,13 @@
 .span_in_line{
     display: inline-block;
     vertical-align: top;
+    margin-right: 15px;
+
 
 }
 .tmp_hid{
-    width: 70px;
+    width: 50px;
+    /*display: none;*/
 }
 
 .img_in_note{
@@ -318,7 +321,6 @@
 
 .forminputsave {
     font-size: 1.5em;
-
 }
 
 .formspantext-title {
@@ -327,6 +329,7 @@
 }
 .formspantext-content {
     font-size: 1.3em;
-    width: 50px;
+    display:block;
+    max-width: 450px;
 }
 

@@ -293,10 +293,17 @@
                         </div>
                     </a>
                     <button type="submit" class="forminputsave">Сохранить</button>
+                    <button onclick="moveToBinNote();return false;" class="forminputsave">
+                        Переместить в корзину
+                    </button>
+                    <!-- скрытые параметры-------------------------------------------------->
                     <input type="text" id="hid_fav" name="hid_fav" class="tmp_hid">
                     <input type="text" id="mode" name="mode" class="tmp_hid">
                     <input type="text" id="note_id" name="note_id" class="tmp_hid">
                     <input type="text" id="img_name" name="img_name" class="tmp_hid">
+
+                    <input type="text" id="hid_is_in_recycle" name="hid_is_in_recycle" class="tmp_hid">
+                    <!-- ------------------------------------------------------------------->
                 </div>
                 <div class="span_in_line">
                     <input type=file name=file>
@@ -327,10 +334,12 @@
                     <button onclick="hidePopup()" class="forminputsave">
                         Закрыть
                     </button>
+                    <!-- скрытые параметры-------------------------------------------------->
                     <input type="text" id="hid_fav_view" name="hid_fav" class="tmp_hid">
                     <input type="text" id="mode_view" name="mode" class="tmp_hid">
                     <input type="text" id="note_id_view" name="note_id" class="tmp_hid">
                     <input type="text" id="img_name_view" name="img_name" class="tmp_hid">
+                    <!-- ------------------------------------------------------------------->
                 </div>
                 <div class="span_in_line">
                     <input type=file name=file>
@@ -510,6 +519,48 @@
         showPopup('view');
 
     }
+
+
+    function moveToBinNote(id){
+
+
+
+        $.ajax({
+                url: 'note/xml/' + id + '/',
+                type: 'GET',
+                dataType: 'xml',
+                success: function(data) {
+                    // Получаем значения тегов
+                    var is_in_recycle = $(data).find('Is_in_recycle').text();
+
+
+                    // Выводим значения на страницу
+                    $('#is_in_recycle').val(is_in_recycle);
+
+                    if (is_in_recycle == '1') {
+                        //Перемещаем в корзину
+                        document.getElementById("hid_is_in_recycle").value = '0'
+
+                    } else {
+                        //Перемещаем из корзины
+                        document.getElementById("hid_is_in_recycle").value = '1'
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error('Ошибка при загрузке XML:', error);
+                }
+            });
+
+
+        //document.getElementById('note_id').value = id;
+
+
+
+
+
+    }
+
 
 
     function showPopup(mode) {
