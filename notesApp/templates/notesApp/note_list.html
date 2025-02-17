@@ -293,7 +293,7 @@
                         </div>
                     </a>
                     <button type="submit" class="forminputsave">Сохранить</button>
-                    <button onclick="moveToBinNote();return false;" class="forminputsave">
+                    <button id="button_in_bin" onclick="moveToBinNote();return false;" class="forminputsave">
                         Переместить в корзину
                     </button>
                     <!-- скрытые параметры-------------------------------------------------->
@@ -445,12 +445,15 @@
                     var action_dt = $(data).find('Action_dt').text();
                     var is_favorite = $(data).find('Is_favorite').text();
                     var img_name = $(data).find('Img_name').text();
+                    var is_in_recycle = $(data).find('Is_in_recycle').text();
+
 
                     // Выводим значения на страницу
                     $('#title').val(title);
                     $('#content').val(content);
                     $('#action_dt').val(action_dt);
                     $('#img_name').val(img_name);
+                    $('#is_in_recycle').val(is_in_recycle);
 
                     if (is_favorite == '1') {
                         // 222
@@ -460,6 +463,18 @@
                         document.getElementById("favimg").src = "/static/img/star_0.png";
                         document.getElementById("hid_fav").value = '0';
                     }
+
+
+                    if (is_in_recycle == '1') {
+                        document.getElementById("hid_is_in_recycle").value = '1';
+                        document.getElementById("button_in_bin").textContent = 'Восстановить заметку';
+
+                    } else {
+                        document.getElementById("hid_is_in_recycle").value = '0';
+                        document.getElementById("button_in_bin").textContent = 'Переместить в корзину';
+                    }
+
+
 
                 },
                 error: function(xhr, status, error) {
@@ -522,38 +537,33 @@
 
 
     function moveToBinNote(id){
+        var answ_bin = confirm("Переместить эту заметку в корзину? ");
+        if (answ_bin) {
+            id = document.getElementById('note_id').value;
+            is_in_bin = document.getElementById('hid_is_in_recycle').value;
+            if (is_in_bin == "0") {
+                is_in_bin = "1";
+                document.getElementById('hid_is_in_recycle').value = '1';
+            } else{
+                is_in_bin = "0";
+                document.getElementById('hid_is_in_recycle').value = '0';
+            }
+            $.ajax({
+                    url: 'move2bin/' + id + '/' + is_in_bin + '/',
+                    type: 'GET',
+                    dataType: '',
+                    success: function(data) {
 
 
-
-        $.ajax({
-                url: 'note/xml/' + id + '/',
-                type: 'GET',
-                dataType: 'xml',
-                success: function(data) {
-                    // Получаем значения тегов
-                    var is_in_recycle = $(data).find('Is_in_recycle').text();
-
-
-                    // Выводим значения на страницу
-                    $('#is_in_recycle').val(is_in_recycle);
-
-                    if (is_in_recycle == '1') {
-                        //Перемещаем в корзину
-                        document.getElementById("hid_is_in_recycle").value = '0'
-
-                    } else {
-                        //Перемещаем из корзины
-                        document.getElementById("hid_is_in_recycle").value = '1'
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Ошибка при загрузке:', error);
                     }
+                });
+            hidePopup();
+            location.reload();
+        }
 
-                },
-                error: function(xhr, status, error) {
-                    console.error('Ошибка при загрузке XML:', error);
-                }
-            });
-
-
-        //document.getElementById('note_id').value = id;
 
 
 

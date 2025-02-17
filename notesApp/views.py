@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -34,7 +36,7 @@ def note_list(request):
     notesFavs = Note.objects.filter(is_favorite=1).order_by('-last_update').order_by('-created_at')
     notesTemp = Note.objects.exclude(action_dt='').order_by('-action_dt').filter(is_in_recycle=0) #111
     notesLast = Note.objects.filter(is_last=1).order_by('-last_update').order_by('-created_at')
-    notesRec = Note.objects.filter(is_in_recycle=1)
+    notesRec = Note.objects.filter(is_in_recycle=1).order_by('-last_update').order_by('-created_at')
 
 
    # results = Note.objects.filter(title__icontains=query)  # Поиск по полю 'title'
@@ -71,6 +73,7 @@ def save_note(request):
             note.content = content
             note.action_dt = action_dt
             note.is_favorite = is_fav
+            note.last_update = datetime.datetime.now()
             note.save()
         else:
             print('save_note: mode not defined!')
@@ -150,5 +153,9 @@ def search(request):
         return render(request, 'search_results.html') # Возвращаем пустой шаблон, если запроса нет
 
 
-
-
+def move_2_bin(request, id, is_in_bin):
+    note = get_object_or_404(Note, id=id)
+    note.is_in_recycle = is_in_bin
+    note.last_update = datetime.datetime.now()
+    note.save()
+    return render(request, 'notesApp/note_list.html')  # Отображаем форму при GET запросе
