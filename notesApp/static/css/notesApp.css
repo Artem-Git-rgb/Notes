@@ -54,7 +54,7 @@
 }
 
 .search-class-button{
-    background: rgb(200, 200, 200);
+    background: rgb(200, 185, 200);
     width: 70px;
     height: 47px;
     margin-top: 0px;
@@ -68,21 +68,34 @@
 
 
 .account-class{
-    background: rgb(200, 200, 200);
-    width: 10%;
-    height: 80px;
-    margin-top: 5px;
-    margin-right: 10px;
-    display: inline-block;
+    background: rgb(200, 185, 200);
+    width: 8%;
+    height: 60px;
+    margin-top: 15px;
+    margin-right: 15px;
     text-align: center;
-    min-width: 180px;
+    min-width: 200px;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: left;
 }
 
+.account-class-photo{
+    height: 60px;
+    width: 60px;
+    display: inline-block;
 
+}
+.account-class-text{
+    padding-left: 115px;
+    padding-left: 15px;
+    height: 60px;
+    min-width: 120px;
+    display: inline-block;
+    text-align: center;
+    justify-content: center;
+}
 
 
 
@@ -124,7 +137,7 @@
     padding-left: 15px;
 	padding-right: 15px;
 	overflow: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(150, 90, 150); /*rgb(100, 50, 100)*/
     background-color: #f1f1f1;
     z-index: 100;
 }
@@ -297,7 +310,7 @@
 }
 .tmp_hid{
     width: 50px;
-    /*display: none;*/
+    display: none;
 }
 
 .img_in_note{

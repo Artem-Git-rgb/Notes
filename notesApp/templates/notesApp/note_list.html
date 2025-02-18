@@ -30,9 +30,10 @@
 
 
     </div>
-
-
-        <div class="account-class"><h1>АККАУНТ</h1></div>
+        <div class="account-class">
+            <img id="account-photo" name="account-photo" src="/static/img/profile-photo.png" class="account-class-photo" width="60px" height="60px"/>
+            <div class="account-class-text"><h2>Guest-2#4</h2></div><!-- АККАУНТ -->
+        </div>
     </header>
     <!-- main-body -->
     <div class="main-body-class">
@@ -63,12 +64,12 @@
                             <p> </p>
                             <span class="span-gray">
                                 {{  "создана: " }}
-                                {{ note.created_at }}<br>
+                                {{ note.created_at|date:"d-m-Y h:m:s" }}<br>
                             </span>
                             {% if note.last_update %}
                                 <span class="span-gray">
                                     {{  "изменена: " }}
-                                    {{ note.last_update }}
+                                    {{ note.last_update|date:"d-m-Y h:m:s" }}
                                 </span>
                             {% else %}
                                 {{ "&nbsp; " }}
@@ -280,7 +281,7 @@
     <div id="overlay" onclick="hidePopup()"></div>
     <div id="popup">
         <h2><span id="action_name">Новая заметка</span></h2>
-         <form action="/save/" method="post">
+         <form action="/save/" method="post" enctype="multipart/form-data">
                 <div class="span_in_line">
                     {% csrf_token %}
                     <input type="text" id="title" name="title" required placeholder="Название" maxlength="100" class="forminputtext"><br><br>
@@ -306,10 +307,9 @@
                     <!-- ------------------------------------------------------------------->
                 </div>
                 <div class="span_in_line">
-                    <input type=file name=file>
+                    <input type=file name="pic" id="pic">
                     <div>
-                        <img id="img_in_note" name="img_in_note" src="" class="img_in_note"/>
-
+                        <img id="imgpic" name="imgpic" src="" class="img_in_note"/>
                     </div>
                 </div>
         </form>
@@ -342,9 +342,8 @@
                     <!-- ------------------------------------------------------------------->
                 </div>
                 <div class="span_in_line">
-                    <input type=file name=file>
                     <div>
-                        <img id="img_in_note_view" name="img_in_note" src="" class="img_in_note"/>
+                        <img id="imgpic-view" name="imgpic" src="" class="img_in_note"/>
 
                     </div>
                 </div>
@@ -411,6 +410,10 @@
         document.getElementById('hid_fav').value = '0';
         document.getElementById('favimg').src = "/static/img/star_0.png";
         document.getElementById('img_name').value = '';
+        document.getElementById('imgpic').src = '';
+        //document.getElementById('imgpic').style.display = 'none';
+        document.getElementById('imgpic').style.visibility = 'hidden';
+
     }
 
     function createNote() {
@@ -446,7 +449,7 @@
                     var is_favorite = $(data).find('Is_favorite').text();
                     var img_name = $(data).find('Img_name').text();
                     var is_in_recycle = $(data).find('Is_in_recycle').text();
-
+                    var img_name = $(data).find('Img_name').text();
 
                     // Выводим значения на страницу
                     $('#title').val(title);
@@ -454,9 +457,24 @@
                     $('#action_dt').val(action_dt);
                     $('#img_name').val(img_name);
                     $('#is_in_recycle').val(is_in_recycle);
+                    $('#img_name').val(img_name);
+
+                    // 2222
+
+                    if (img_name.length > 0) {
+                        if (img_name.indexOf('/media/media') >= 0) { // обрезаем повтор media
+                           img_name = img_name.replace('/media','');
+                        }
+
+                        if (img_name) {
+                            document.getElementById("imgpic").src = img_name;
+                        }
+
+                        //document.getElementById('imgpic').style.display = 'block';
+                        document.getElementById('imgpic').style.visibility = '';
+                    }
 
                     if (is_favorite == '1') {
-                        // 222
                         document.getElementById("favimg").src = "/static/img/star_1.png";
                         document.getElementById("hid_fav").value = '1';
                     } else {
@@ -510,11 +528,32 @@
                     var is_favorite = $(data).find('Is_favorite').text();
                     var img_name = $(data).find('Img_name').text();
 
+                    // 2222
+
+
                     // Выводим значения на страницу
                     $('#title_view').html(title);
                     $('#content_view').html(content);
                     $('#action_dt_view').html(action_dt);
-                    $('#img_name_view').html(img_name);
+                    $('#imgpic-view').html(img_name);
+
+
+                    if (img_name.length > 0) {
+                        if (img_name.indexOf('/media/media') >= 0) { // обрезаем повтор media
+                           img_name = img_name.replace('/media','');
+                        }
+
+                        if (img_name) {
+                            document.getElementById("imgpic-view").src = img_name;
+                        }
+
+                        //document.getElementById('imgpic-view').style.display = 'block';
+                        document.getElementById('imgpic-view').style.visibility = '';
+                    }else{
+                        document.getElementById('imgpic-view').style.visibility = 'hidden';
+                    }
+
+
 
                     if (is_favorite == '1') {
                         document.getElementById("favimg_view").src = "/static/img/star_1.png";

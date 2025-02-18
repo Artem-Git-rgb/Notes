@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -7,7 +8,9 @@ import xml.etree.ElementTree as ET
 from .models import Note, Image
 from .forms import NoteForm
 
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.contrib import messages
+import os
 
 """
 def search(request):
@@ -64,8 +67,21 @@ def save_note(request):
 
         if (mode == 'create'):
             # Создаем новую запись в базе данных
-            note = Note(title=title, content=content, action_dt=action_dt, is_favorite=is_fav)
+
+            if request.FILES:
+                file = request.FILES['pic']
+                fs = FileSystemStorage()
+                # сохраняем на файловой системе
+                filename = fs.save(file.name, file)
+                # получение адреса по которому лежит файл
+                file_url = fs.url(filename)
+            else:
+                file_url = ''
+
+            note = Note(title=title, content=content, action_dt=action_dt, is_favorite=is_fav, pic=file_url)
+
             note.save()
+
         elif (mode == 'update'):
             # Обновляем запись в базе данных
             note = Note.objects.get(id=note_id)
@@ -74,7 +90,19 @@ def save_note(request):
             note.action_dt = action_dt
             note.is_favorite = is_fav
             note.last_update = datetime.datetime.now()
+
+            if request.FILES:
+                file = request.FILES['pic']
+                fs = FileSystemStorage()
+                # сохраняем на файловой системе
+                filename = fs.save(file.name, file)
+                # получение адреса по которому лежит файл
+                file_url = fs.url(filename)
+
+                note.pic = file_url
+
             note.save()
+
         else:
             print('save_note: mode not defined!')
 
@@ -96,10 +124,10 @@ def get_info(request, id):
     # Получаем объект по ID
     note_instance = get_object_or_404(Note, id=id)
 
-    try:
-        image_instance = Image.objects.get(note_id=id)  #111
-    except Image.DoesNotExist:
-        image_instance = None
+    #try:
+      #  image_instance = Image.objects.get(note_id=id)  #111
+    #except Image.DoesNotExist:
+       # image_instance = None
 
 
     # Создаем XML-структуру
@@ -118,10 +146,17 @@ def get_info(request, id):
     is_in_recycle = ET.SubElement(root, 'Is_in_recycle')
     is_in_recycle.text = str(note_instance.is_in_recycle)
 
+    pic_name = ET.SubElement(root, 'Img_name')
+    try:
+        pic_name.text = note_instance.pic.url
+    except:
+        pic_name.text  = ''
 
-    if image_instance != None:
-        img_name = ET.SubElement(root, 'Img_name')
-        img_name.text = str(image_instance.file_name)
+
+
+    #if image_instance != None:
+     #   img_name = ET.SubElement(root, 'Img_name')
+      #  img_name.text = str(image_instance.file_name)
 
 
     """

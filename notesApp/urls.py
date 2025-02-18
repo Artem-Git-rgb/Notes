@@ -19,3 +19,9 @@ urlpatterns = [
     #path('add/', add_note, name='add_note'),
     #path('success/', TemplateView.as_view(template_name='success.html'), name='success'),  # Страница успешного завершения
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
