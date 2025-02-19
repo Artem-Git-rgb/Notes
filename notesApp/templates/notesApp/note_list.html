@@ -44,7 +44,6 @@
             <button class="tablinks" onclick="openSection(event, 'Time')">Временные</button>
             <button class="tablinks" onclick="openSection(event, 'Recycle')">Корзина</button>
             <button class="tablinks" onclick="openSection(event, 'tabSearch')" id="buttonSearch">Поиск</button>
-            <!-- https://html5css.ru/howto/howto_js_tabs.php   как сделать вкладки!!   -->
 
         </div>
 
@@ -459,7 +458,6 @@
                     $('#is_in_recycle').val(is_in_recycle);
                     $('#img_name').val(img_name);
 
-                    // 2222
 
                     if (img_name.length > 0) {
                         if (img_name.indexOf('/media/media') >= 0) { // обрезаем повтор media
@@ -527,9 +525,6 @@
                     var action_dt = $(data).find('Action_dt').text();
                     var is_favorite = $(data).find('Is_favorite').text();
                     var img_name = $(data).find('Img_name').text();
-
-                    // 2222
-
 
                     // Выводим значения на страницу
                     $('#title_view').html(title);

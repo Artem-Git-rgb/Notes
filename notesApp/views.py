@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 import xml.etree.ElementTree as ET
-from .models import Note, Image
+from .models import Note
 from .forms import NoteForm
 
 from django.urls import reverse_lazy
@@ -37,7 +37,7 @@ def note_list(request):
     notes = Note.objects.all()
     notesDesc = Note.objects.order_by('-created_at').filter(is_in_recycle=0)
     notesFavs = Note.objects.filter(is_favorite=1).order_by('-last_update').order_by('-created_at')
-    notesTemp = Note.objects.exclude(action_dt='').order_by('-action_dt').filter(is_in_recycle=0) #111
+    notesTemp = Note.objects.exclude(action_dt='').order_by('-action_dt').filter(is_in_recycle=0)
     notesLast = Note.objects.filter(is_last=1).order_by('-last_update').order_by('-created_at')
     notesRec = Note.objects.filter(is_in_recycle=1).order_by('-last_update').order_by('-created_at')
 

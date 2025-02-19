@@ -1,9 +1,6 @@
-from django.urls import path, re_path, include
+from django.urls import path
 from . import views
 from .views import add_note, move_2_bin, save_note, test_page, get_info, search
-
-#from django.conf.urls import url
-from django.contrib import admin
 
 
 urlpatterns = [
