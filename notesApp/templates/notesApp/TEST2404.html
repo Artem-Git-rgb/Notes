@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notionary - Умные заметки</title>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Боковая панель -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>Notionary</h1>
+            </div>
+
+            <button class="new-note-btn">
+                <i class="fas fa-plus"></i> Новая заметка
+            </button>
+
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Поиск заметок...">
+            </div>
+
+            <nav class="folders">
+                <ul>
+                    <li class="active"><i class="fas fa-inbox"></i> Все заметки</li>
+                    <li><i class="fas fa-star"></i> Избранное</li>
+                    <li><i class="fas fa-tag"></i> Работа</li>
+                    <li><i class="fas fa-tag"></i> Личное</li>
+                    <li><i class="fas fa-tag"></i> Идеи</li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="theme-toggle">
+                    <i class="fas fa-moon"></i> Тема
+                </button>
+                <button class="settings-btn">
+                    <i class="fas fa-cog"></i> Настройки
+                </button>
+            </div>
+        </aside>
+
+        <!-- Основное содержимое -->
+        <main class="main-content">
+            <header class="notes-header">
+                <h2>Все заметки</h2>
+                <div class="view-options">
+                    <button class="view-btn active"><i class="fas fa-th-large"></i></button>
+                    <button class="view-btn"><i class="fas fa-list"></i></button>
+                </div>
+            </header>
+
+            <div class="notes-grid">
+                <!-- Пример заметки 1 -->
+                <div class="note-card">
+                    <div class="note-header">
+                        <h3>Идеи для нового проекта</h3>
+                        <div class="note-actions">
+                            <button><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="note-content">
+                        <p>Исследовать возможности AI для автоматизации заметок. Добавить поддержку Markdown...</p>
+                    </div>
+                    <div class="note-footer">
+                        <span class="tag work">Работа</span>
+                        <span class="date">Сегодня, 14:30</span>
+                    </div>
+                </div>
+
+                <!-- Пример заметки 2 -->
+                <div class="note-card">
+                    <div class="note-header">
+                        <h3>Список покупок</h3>
+                        <div class="note-actions">
+                            <button><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="note-content">
+                        <ul class="checklist">
+                            <li><input type="checkbox"> Молоко</li>
+                            <li><input type="checkbox"> Хлеб</li>
+                            <li><input type="checkbox"> Яйца</li>
+                        </ul>
+                    </div>
+                    <div class="note-footer">
+                        <span class="tag personal">Личное</span>
+                        <span class="date">Вчера, 18:45</span>
+                    </div>
+                </div>
+
+                <!-- Пример заметки 3 -->
+                <div class="note-card">
+                    <div class="note-header">
+                        <h3>Вдохновляющие цитаты</h3>
+                        <div class="note-actions">
+                            <button><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="note-content">
+                        <blockquote>"Простота - это высшая степень изощренности." — Леонардо да Винчи</blockquote>
+                    </div>
+                    <div class="note-footer">
+                        <span class="tag ideas">Идеи</span>
+                        <span class="date">12 апр, 2024</span>
+                    </div>
+                </div>
+
+                <!-- Пустая заметка для демонстрации -->
+                <div class="note-card empty-note" onclick="createNewNote()">
+                    <div class="empty-note-content">
+                        <i class="fas fa-plus"></i>
+                        <p>Добавить новую заметку</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Редактор заметок (скрыт по умолчанию) -->
+        <div class="note-editor hidden">
+            <div class="editor-header">
+                <input type="text" class="note-title" placeholder="Название заметки">
+                <div class="editor-actions">
+                    <button class="save-btn"><i class="fas fa-save"></i> Сохранить</button>
+                    <button class="close-editor"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="editor-toolbar">
+                <button><i class="fas fa-bold"></i></button>
+                <button><i class="fas fa-italic"></i></button>
+                <button><i class="fas fa-list-ul"></i></button>
+                <button><i class="fas fa-list-ol"></i></button>
+                <button><i class="fas fa-link"></i></button>
+                <button><i class="fas fa-image"></i></button>
+                <button><i class="fas fa-code"></i></button>
+            </div>
+            <div class="editor-content" contenteditable="true">
+                <p>Начните печатать здесь...</p>
+            </div>
+            <div class="editor-footer">
+                <div class="tags-input">
+                    <i class="fas fa-tags"></i>
+                    <input type="text" placeholder="Добавить теги...">
+                </div>
+                <div class="editor-status">
+                    <span>Сохранено</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Переключение темы
+    const themeToggle = document.querySelector('.theme-toggle');
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-theme');
+
+        // Обновляем иконку
+        const icon = this.querySelector('i');
+        if (document.body.classList.contains('dark-theme')) {
+            icon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            icon.classList.replace('fa-sun', 'fa-moon');
+        }
+    });
+
+    // Открытие/закрытие редактора
+    const newNoteBtn = document.querySelector('.new-note-btn');
+    const closeEditorBtn = document.querySelector('.close-editor');
+    const noteEditor = document.querySelector('.note-editor');
+    const emptyNote = document.querySelector('.empty-note');
+
+    function openEditor() {
+        noteEditor.classList.add('active');
+    }
+
+    function closeEditor() {
+        noteEditor.classList.remove('active');
+    }
+
+    newNoteBtn.addEventListener('click', openEditor);
+    closeEditorBtn.addEventListener('click', closeEditor);
+    emptyNote.addEventListener('click', openEditor);
+
+    // Клик по карточке заметки
+    const noteCards = document.querySelectorAll('.note-card:not(.empty-note)');
+    noteCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Игнорируем клики по кнопкам действий
+            if (e.target.closest('.note-actions')) return;
+            openEditor();
+        });
+    });
+
+    // Переключение вида (сетка/список)
+    const viewBtns = document.querySelectorAll('.view-btn');
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            viewBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const notesGrid = document.querySelector('.notes-grid');
+            if (this.querySelector('i').classList.contains('fa-list')) {
+                notesGrid.style.gridTemplateColumns = '1fr';
+            } else {
+                notesGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+            }
+        });
+    });
+
+    // Сохранение заметки
+    const saveBtn = document.querySelector('.save-btn');
+    saveBtn.addEventListener('click', function() {
+        const status = document.querySelector('.editor-status span');
+        status.textContent = 'Сохранено';
+        setTimeout(() => {
+            status.textContent = '';
+        }, 2000);
+    });
+});
+
+function createNewNote() {
+    const editor = document.querySelector('.note-editor');
+    const titleInput = editor.querySelector('.note-title');
+    const contentDiv = editor.querySelector('.editor-content');
+
+    titleInput.value = '';
+    contentDiv.innerHTML = '<p>Начните печатать здесь...</p>';
+
+    editor.classList.add('active');
+}
+    </script>
+</body>
+</html>
+<style>
+    /* Основные стили */
+:root {
+    --primary-color: #6b46c1;
+    --primary-light: #9f7aea;
+    --text-color: #2d3748;
+    --text-light: #4a5568;
+    --bg-color: #ffffff;
+    --sidebar-color: #f7fafc;
+    --card-color: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    --dark-primary: #9f7aea;
+    --dark-text: #e2e8f0;
+    --dark-text-light: #a0aec0;
+    --dark-bg: #1a202c;
+    --dark-sidebar: #2d3748;
+    --dark-card: #2d3748;
+    --dark-border: #4a5568;
+    --dark-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-theme {
+    --primary-color: var(--dark-primary);
+    --text-color: var(--dark-text);
+    --text-light: var(--dark-text-light);
+    --bg-color: var(--dark-bg);
+    --sidebar-color: var(--dark-sidebar);
+    --card-color: var(--dark-card);
+    --border-color: var(--dark-border);
+    --shadow: var(--dark-shadow);
+}
+
+/* Контейнер приложения */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Боковая панель */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.logo i {
+    font-size: 24px;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.new-note-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.new-note-btn:hover {
+    background-color: var(--primary-light);
+}
+
+.search-box {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-color);
+    color: var(--text-color);
+    transition: all 0.3s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(107, 70, 193, 0.2);
+}
+
+.folders ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.folders li {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: var(--text-color);
+}
+
+.folders li:hover {
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+.folders li.active {
+    background-color: rgba(107, 70, 193, 0.2);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.folders li i {
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.theme-toggle, .settings-btn {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.2s;
+    width: 100%;
+    text-align: left;
+}
+
+.theme-toggle:hover, .settings-btn:hover {
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+/* Основное содержимое */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.notes-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.view-options {
+    display: flex;
+    gap: 10px;
+}
+
+.view-btn {
+    background: none;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: all 0.2s;
+}
+
+.view-btn:hover {
+    background-color: rgba(107, 70, 193, 0.1);
+    color: var(--primary-color);
+}
+
+.view-btn.active {
+    background-color: rgba(107, 70, 193, 0.2);
+    color: var(--primary-color);
+}
+
+/* Сетка заметок */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.note-card {
+    background-color: var(--card-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.note-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.note-actions button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.note-actions button:hover {
+    color: var(--primary-color);
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+.note-content {
+    flex: 1;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.note-content p, .note-content ul, .note-content blockquote {
+    margin-bottom: 10px;
+}
+
+.note-content ul {
+    padding-left: 20px;
+}
+
+.note-content blockquote {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 10px;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.checklist {
+    list-style: none;
+    padding-left: 0;
+}
+
+.checklist li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.checklist input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.tag.work {
+    background-color: rgba(56, 178, 172, 0.1);
+    color: #38b2ac;
+}
+
+.tag.personal {
+    background-color: rgba(159, 122, 234, 0.1);
+    color: #9f7aea;
+}
+
+.tag.ideas {
+    background-color: rgba(237, 137, 54, 0.1);
+    color: #ed8936;
+}
+
+.date {
+    color: var(--text-light);
+}
+
+.empty-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(107, 70, 193, 0.05);
+    border: 1px dashed var(--primary-color);
+}
+
+.empty-note:hover {
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+.empty-note-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-color);
+}
+
+.empty-note i {
+    font-size: 24px;
+}
+
+/* Редактор заметок */
+.note-editor {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 600px;
+    height: 100vh;
+    background-color: var(--card-color);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.note-editor.active {
+    transform: translateX(0);
+}
+
+.editor-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.note-title {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.note-title:focus {
+    outline: none;
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+.editor-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.save-btn, .close-editor {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.save-btn:hover {
+    background-color: var(--primary-light);
+}
+
+.close-editor {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.close-editor:hover {
+    background-color: rgba(107, 70, 193, 0.1);
+}
+
+.editor-toolbar {
+    padding: 10px 20px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.editor-toolbar button {
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: all 0.2s;
+}
+
+.editor-toolbar button:hover {
+    background-color: rgba(107, 70, 193, 0.1);
+    color: var(--primary-color);
+}
+
+.editor-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.editor-content:focus {
+    outline: none;
+}
+
+.editor-footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.tags-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+}
+
+.tags-input input {
+    border: none;
+    background: none;
+    color: var(--text-color);
+    padding: 5px;
+}
+
+.tags-input input:focus {
+    outline: none;
+}
+
+.editor-status {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .note-editor {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .notes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

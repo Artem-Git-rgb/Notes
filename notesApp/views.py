@@ -103,6 +103,9 @@ def test_page(request):
     return HttpResponse("Hello")
 
 
+def test24(request):
+    return render(request, 'notesApp/TEST2404.html')
+
 def get_info(request, id):
 
     # Получаем объект по ID

@@ -37,249 +37,243 @@
     </header>
     <!-- main-body -->
     <div class="main-body-class">
-        <div class="tab">
-            <button class="tablinks" onclick="openSection(event, 'All')" id="defaultOpen">Все</button>
-            <button class="tablinks" onclick="openSection(event, 'Favs')">Избранные</button>
-            <button class="tablinks" onclick="openSection(event, 'Last')">Последние</button>
-            <button class="tablinks" onclick="openSection(event, 'Time')">Временные</button>
-            <button class="tablinks" onclick="openSection(event, 'Recycle')">Корзина</button>
-            <button class="tablinks" onclick="openSection(event, 'tabSearch')" id="buttonSearch">Поиск</button>
-
-        </div>
+         <div class="sidebar">
+            <p>udsgfdsgfidsguf</p>
+         </div>
+        <div class="tabcontent-all">
 
 
+            <div class="tab">
+                <button class="tablinks" onclick="openSection(event, 'All')" id="defaultOpen">Все</button>
+                <button class="tablinks" onclick="openSection(event, 'Favs')">Избранные</button>
+                <button class="tablinks" onclick="openSection(event, 'Last')">Последние</button>
+                <button class="tablinks" onclick="openSection(event, 'Time')">Временные</button>
+                <button class="tablinks" onclick="openSection(event, 'Recycle')">Корзина</button>
+                <button class="tablinks" onclick="openSection(event, 'tabSearch')" id="buttonSearch">Поиск</button>
 
-        <div id="All" class="tabcontent">
-            <h2>Здесь все заметки</h2>
-                {% for note in notesDesc %}
-                    <div class="note-class">
-                        <div class="left-note-content">
-                            <a onclick="viewNote({{note.id}});return false;">
-                                <h3>{{ note.title }} <br></h3>
-                            </a>
-                            <span class="span-content">
-                                {{ note.content|truncatechars:260 }} <br>
-                            </span>
-                            <p> </p>
-                            <span class="span-gray">
-                                {{  "создана: " }}
-                                {{ note.created_at|date:"d-m-Y h:m:s" }}<br>
-                            </span>
-                            {% if note.last_update %}
-                                <span class="span-gray">
-                                    {{  "изменена: " }}
-                                    {{ note.last_update|date:"d-m-Y h:m:s" }}
-                                </span>
-                            {% else %}
-                                {{ "&nbsp; " }}
-                            {% endif %}
-                        </div>
-
-                        <div class="right-note-content">
-                            {% if note.is_favorite %}
-                                <img id="a-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
-                            {% else %}
-                                <img id="a-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
-                            {% endif %}
-                            <a onclick="updateNote({{note.id}});return false;">
-                                <img id="a-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
-                            </a>
-                        </div>
-                    </div>
-
-
-                {% endfor %}
-        </div>
-
-        <div id="Last" class="tabcontent">
-            <h2>Здесь последние заметки</h2>
-                {% for note in notesLast %}
-                    <div class="note-class">
-                        <div class="left-note-content">
-                            <a onclick="viewNote({{note.id}});return false;">
-                                <h3>{{ note.title }} <br></h3>
-                            </a>
-                            <span class="span-content">
-                                {{ note.content|truncatechars:260 }} <br>
-                            </span>
-                            <p> </p>
-                            <span class="span-gray">
-                                {{  "создана: " }}
-                                {{ note.created_at }}<br>
-                            </span>
-                            {% if note.last_update %}
-                                <span class="span-gray">
-                                    {{  "изменена: " }}
-                                    {{ note.last_update }}
-                                </span>
-                            {% else %}
-                                {{ "&nbsp; " }}
-                            {% endif %}
-                        </div>
-                        <div class="right-note-content">
-                            {% if note.is_favorite %}
-                                <img id="l-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
-                            {% else %}
-                                <img id="l-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
-                            {% endif %}
-                                <a onclick="updateNote({{note.id}});return false;">
-                                    <img id="l-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
-                                </a>
-                        </div>
-                    </div>
-                {% endfor %}
-
-        </div>
-
-        <div id="Favs" class="tabcontent">
-          <h2>Здесь избранные заметки</h2>
-                {% for note in notesFavs %}
-                    <div class="note-class">
-                        <div class="left-note-content">
-                            <a onclick="viewNote({{note.id}});return false;">
-                                <h3>{{ note.title }} <br></h3>
-                            </a>
-                            <span class="span-content">
-                                {{ note.content|truncatechars:260 }} <br>
-                            </span>
-                            <p> </p>
-                            <span class="span-gray">
-                                {{  "создана: " }}
-                                {{ note.created_at }}<br>
-                            </span>
-                            {% if note.last_update %}
-                                <span class="span-gray">
-                                    {{  "изменена: " }}
-                                    {{ note.last_update }}
-                                </span>
-                            {% else %}
-                                {{ "&nbsp; " }}
-                            {% endif %}
-                        </div>
-                        <div class="right-note-content">
-                            {% if note.is_favorite %}
-                                <img id="f-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
-                            {% else %}
-                                <img id="f-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
-                            {% endif %}
-                             <a onclick="updateNote({{note.id}});return false;">
-                                <img id="f-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
-                             </a>
-                        </div>
-                    </div>
-                {% endfor %}
-
-        </div>
-
-        <div id="Time" class="tabcontent">
-          <h2>Здесь заметки, запланированные на какую-то дату</h2>
-                {% for note in notesTemp %}
-                    <div class="note-class">
-                        <div class="left-note-content">
-                            <a onclick="viewNote({{note.id}});return false;">
-                                <h3>{{ note.title }} <br></h3>
-                            </a>
-                            <span class="span-content">
-                                {{ note.content|truncatechars:260 }} <br>
-                            </span>
-                            <p> </p>
-                            <span class="span-gray">
-                                {{  "создана: " }}
-                                {{ note.created_at }}<br>
-                            </span>
-                            {% if note.last_update %}
-                                <span class="span-gray">
-                                    {{  "изменена: " }}
-                                    {{ note.last_update }}
-                                </span>
-                            {% else %}
-                                {{ "&nbsp; " }}
-                            {% endif %}
-                            <p> </p>
-                            {{  "дата события: " }}
-                            <h4>{{ note.action_dt }}</h4>
-                        </div>
-                        <div class="right-note-content">
-                            {% if note.is_favorite %}
-                                <img id="t-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
-                            {% else %}
-                                <img id="t-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
-                            {% endif %}
-                            <a onclick="updateNote({{note.id}});return false;">
-                                <img id="t-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
-                             </a>
-                        </div>
-                    </div>
-
-
-                {% endfor %}
-        </div>
-
-        <div id="Recycle" class="tabcontent">
-          <h2>Здесь заметки, отправленные в корзину</h2>
-                {% for note in notesRec %}
-                    <div class="note-class">
-                        <div class="left-note-content">
-                            <a onclick="viewNote({{note.id}});return false;">
-                                <h3>{{ note.title }} <br></h3>
-                            </a>
-                            <span class="span-content">
-                                {{ note.content|truncatechars:260 }} <br>
-                            </span>
-                            <p> </p>
-                            <span class="span-gray">
-                                {{  "создана: " }}
-                                {{ note.created_at }}<br>
-                            </span>
-                            {% if note.last_update %}
-                                <span class="span-gray">
-                                    {{  "изменена: " }}
-                                    {{ note.last_update }}
-                                </span>
-                            {% else %}
-                                {{ "&nbsp; " }}
-                            {% endif %}
-                        </div>
-                        <div class="right-note-content">
-                            {% if note.is_favorite %}
-                                <img id="r-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
-                            {% else %}
-                                <img id="r-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
-                            {% endif %}
-                            <a onclick="updateNote({{note.id}});return false;">
-                                <img id="r-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
-                            </a>
-                        </div>
-                    </div>
-                {% endfor %}
-        </div>
-
-        <div id="tabSearch" class="tabcontent">
-
-            <div id="search-results">
-              <!-- Сюда будут загружены результаты поиска -->
             </div>
 
+
+
+            <div id="All" class="tabcontent">
+                <h2 class="about-type-notes-class">Здесь все заметки</h2>
+                    {% for note in notesDesc %}
+                        <div class="note-class">
+                            <div class="left-note-content">
+                                <a onclick="viewNote({{note.id}});return false;">
+                                    <h3>{{ note.title }} <br></h3>
+                                </a>
+                                <span class="span-content">
+                                    {{ note.content|truncatechars:260 }} <br>
+                                </span>
+                                <p> </p>
+                                <span class="span-gray">
+                                    {{  "создана: " }}
+                                    {{ note.created_at|date:"d-m-Y h:m:s" }}<br>
+                                </span>
+                                {% if note.last_update %}
+                                    <span class="span-gray">
+                                        {{  "изменена: " }}
+                                        {{ note.last_update|date:"d-m-Y h:m:s" }}
+                                    </span>
+                                {% else %}
+                                    {{ "&nbsp; " }}
+                                {% endif %}
+                            </div>
+
+                            <div class="right-note-content">
+                                {% if note.is_favorite %}
+                                    <img id="a-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
+                                {% else %}
+                                    <img id="a-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
+                                {% endif %}
+                                <a onclick="updateNote({{note.id}});return false;">
+                                    <img id="a-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                                </a>
+                            </div>
+                        </div>
+
+
+                    {% endfor %}
+            </div>
+
+            <div id="Last" class="tabcontent">
+                <h2 class="about-type-notes-class">Здесь последние заметки</h2>
+                    {% for note in notesLast %}
+                        <div class="note-class">
+                            <div class="left-note-content">
+                                <a onclick="viewNote({{note.id}});return false;">
+                                    <h3>{{ note.title }} <br></h3>
+                                </a>
+                                <span class="span-content">
+                                    {{ note.content|truncatechars:260 }} <br>
+                                </span>
+                                <p> </p>
+                                <span class="span-gray">
+                                    {{  "создана: " }}
+                                    {{ note.created_at }}<br>
+                                </span>
+                                {% if note.last_update %}
+                                    <span class="span-gray">
+                                        {{  "изменена: " }}
+                                        {{ note.last_update }}
+                                    </span>
+                                {% else %}
+                                    {{ "&nbsp; " }}
+                                {% endif %}
+                            </div>
+                            <div class="right-note-content">
+                                {% if note.is_favorite %}
+                                    <img id="l-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
+                                {% else %}
+                                    <img id="l-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
+                                {% endif %}
+                                    <a onclick="updateNote({{note.id}});return false;">
+                                        <img id="l-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                                    </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+            </div>
+
+            <div id="Favs" class="tabcontent">
+              <h2 class="about-type-notes-class">Здесь избранные заметки</h2>
+                    {% for note in notesFavs %}
+                        <div class="note-class">
+                            <div class="left-note-content">
+                                <a onclick="viewNote({{note.id}});return false;">
+                                    <h3>{{ note.title }} <br></h3>
+                                </a>
+                                <span class="span-content">
+                                    {{ note.content|truncatechars:260 }} <br>
+                                </span>
+                                <p> </p>
+                                <span class="span-gray">
+                                    {{  "создана: " }}
+                                    {{ note.created_at }}<br>
+                                </span>
+                                {% if note.last_update %}
+                                    <span class="span-gray">
+                                        {{  "изменена: " }}
+                                        {{ note.last_update }}
+                                    </span>
+                                {% else %}
+                                    {{ "&nbsp; " }}
+                                {% endif %}
+                            </div>
+                            <div class="right-note-content">
+                                {% if note.is_favorite %}
+                                    <img id="f-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
+                                {% else %}
+                                    <img id="f-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
+                                {% endif %}
+                                 <a onclick="updateNote({{note.id}});return false;">
+                                    <img id="f-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                                 </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+            </div>
+
+            <div id="Time" class="tabcontent">
+              <h2 class="about-type-notes-class">Здесь заметки, запланированные на какую-то дату</h2>
+                    {% for note in notesTemp %}
+                        <div class="note-class">
+                            <div class="left-note-content">
+                                <a onclick="viewNote({{note.id}});return false;">
+                                    <h3>{{ note.title }} <br></h3>
+                                </a>
+                                <span class="span-content">
+                                    {{ note.content|truncatechars:260 }} <br>
+                                </span>
+                                <p> </p>
+                                <span class="span-gray">
+                                    {{  "создана: " }}
+                                    {{ note.created_at }}<br>
+                                </span>
+                                {% if note.last_update %}
+                                    <span class="span-gray">
+                                        {{  "изменена: " }}
+                                        {{ note.last_update }}
+                                    </span>
+                                {% else %}
+                                    {{ "&nbsp; " }}
+                                {% endif %}
+                                <p> </p>
+                                {{  "дата события: " }}
+                                <h4>{{ note.action_dt }}</h4>
+                            </div>
+                            <div class="right-note-content">
+                                {% if note.is_favorite %}
+                                    <img id="t-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
+                                {% else %}
+                                    <img id="t-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
+                                {% endif %}
+                                <a onclick="updateNote({{note.id}});return false;">
+                                    <img id="t-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                                 </a>
+                            </div>
+                        </div>
+
+
+                    {% endfor %}
+            </div>
+
+            <div id="Recycle" class="tabcontent">
+              <h2 class="about-type-notes-class">Здесь заметки, отправленные в корзину</h2>
+                    {% for note in notesRec %}
+                        <div class="note-class">
+                            <div class="left-note-content">
+                                <a onclick="viewNote({{note.id}});return false;">
+                                    <h3>{{ note.title }} <br></h3>
+                                </a>
+                                <span class="span-content">
+                                    {{ note.content|truncatechars:260 }} <br>
+                                </span>
+                                <p> </p>
+                                <span class="span-gray">
+                                    {{  "создана: " }}
+                                    {{ note.created_at }}<br>
+                                </span>
+                                {% if note.last_update %}
+                                    <span class="span-gray">
+                                        {{  "изменена: " }}
+                                        {{ note.last_update }}
+                                    </span>
+                                {% else %}
+                                    {{ "&nbsp; " }}
+                                {% endif %}
+                            </div>
+                            <div class="right-note-content">
+                                {% if note.is_favorite %}
+                                    <img id="r-right-fav-0" name="favimg" src="/static/img/star_1.png" class="right-favs-img"/><br>
+                                {% else %}
+                                    <img id="r-right-fav-1" name="favimg" src="/static/img/star_0.png" class="right-favs-img"/><br>
+                                {% endif %}
+                                <a onclick="updateNote({{note.id}});return false;">
+                                    <img id="r-right-update" name="favimg" src="/static/img/pencil.png" class="right-update-img"/>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+            </div>
+
+            <div id="tabSearch" class="tabcontent">
+                <div id="search-results">
+                  <!-- Сюда будут загружены результаты поиска -->
+                </div>
+            </div>
         </div>
 
-
-
-
-
-
-
-
-
         <!-- create note div -->
+
        <a onclick="createNote();return false;">
             <div class="create-class" id="id_create_div">
                 <h3>Создать заметку</h3>
             </div>
         </a>
-
-
-
-
     </div>
 
 

@@ -1,3 +1,9 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+      box-sizing: border-box;
+
+}
 .header-class {
 	padding-top: 5px;
 	padding-bottom: 10px;
@@ -35,7 +41,7 @@
     width: 50%;
     height: 80px;
     margin-top: 5px;
-    display: inline-block;
+
     text-align: center;
 
     display: flex;
@@ -50,17 +56,19 @@
     margin-top: 16px;
     display: inline-block;
     text-align: center;
+    border-radius: 6px;
 
 }
 
 .search-class-button{
-    background: rgb(200, 185, 200);
+    background: rgb(200, 190, 200);
     width: 70px;
     height: 47px;
     margin-top: 0px;
     display: inline-block;
     margin-left: 0px;
     text-align: center;
+    border-radius: 6px;
 
 }
 
@@ -68,7 +76,7 @@
 
 
 .account-class{
-    background: rgb(200, 185, 200);
+    background: rgb(200, 190, 200);
     width: 8%;
     height: 60px;
     margin-top: 15px;
@@ -79,12 +87,15 @@
     display: flex;
     flex-direction: row;
     justify-content: left;
+
+    border-radius: 10px;
 }
 
 .account-class-photo{
     height: 60px;
     width: 60px;
     display: inline-block;
+    border-radius: 10px;
 
 }
 .account-class-text{
@@ -99,10 +110,9 @@
 
 
 
-.main-body-class{
-    background: rgb(240, 240, 240);
+.about-type-notes-class{
+    padding-left: 60px;
 }
-
 
 .span-gray{
     color: rgb(130, 130, 130);
@@ -113,7 +123,7 @@
 }
 
 .note-class{
-    background: rgb(250, 225, 250);
+    background: rgb(250, 232, 250);
     width: 46%;
     margin-bottom: 20px;
     margin-top: 20px;
@@ -123,6 +133,8 @@
     padding-top: 0px;
     display: inline-block;
     vertical-align: top;
+    border-radius: 10px;
+    border: 1px solid rgb(222, 200, 222);
 }
 
 
@@ -140,6 +152,7 @@
     border: 1px solid rgb(150, 90, 150); /*rgb(100, 50, 100)*/
     background-color: #f1f1f1;
     z-index: 100;
+    border-radius: 8px;
 }
 
 .footer-class {
@@ -233,8 +246,6 @@
 .tab button.active {
     background-color: #ccc;
 }
-
-/* Style the tab content */
 .tabcontent {
     display: none;
     padding: 6px 12px;
@@ -243,6 +254,44 @@
     animation: fadeEffect 1s; /* Fading effect takes 1 second */
 }
 
+/*  */
+.main-body-class{
+    background: rgb(240, 240, 240);
+    /*justify-content: left;*/
+
+    display: flex;/*
+    flex-direction: column;*/
+
+
+}
+
+.tabcontent-all {
+    /* display: inline-block; */
+    display: inline-block;
+
+    /*flex:1;*/
+    /*background: rgb(200, 200, 200);*/
+    padding: 30px;
+    overflow-y: auto;
+    margin-left: 10px;
+}
+
+.sidebar {
+      /* display: inline-block; */
+      display: inline-block;
+
+      /*display: flex;
+      flex-direction: column;*/
+
+      width: 150px;
+      background: rgb(200, 200, 200);
+      padding:20px;
+
+
+      border-right: 1px solid var(--border-color);
+      transition: background-color 0.3s, border-color 0.3s;
+}
+/*  */
 
 /* Go from zero to full opacity */
 @keyframes fadeEffect {

@@ -12,6 +12,8 @@ urlpatterns = [
     path('search/', search, name='search'),
     path('move2bin/<int:id>/<int:is_in_bin>/', move_2_bin, name='move_2_bin'),
 
+    path('test24', views.test24, name='test24'),
+
 ]
 
 from django.conf import settings
