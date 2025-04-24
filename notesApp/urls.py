@@ -12,9 +12,6 @@ urlpatterns = [
     path('search/', search, name='search'),
     path('move2bin/<int:id>/<int:is_in_bin>/', move_2_bin, name='move_2_bin'),
 
-    #path('admin/', admin.site.urls),
-    #path('add/', add_note, name='add_note'),
-    #path('success/', TemplateView.as_view(template_name='success.html'), name='success'),  # Страница успешного завершения
 ]
 
 from django.conf import settings
