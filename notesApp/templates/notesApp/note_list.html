@@ -32,13 +32,26 @@
     </div>
         <div class="account-class">
             <img id="account-photo" name="account-photo" src="/static/img/profile-photo.png" class="account-class-photo" width="60px" height="60px"/>
-            <div class="account-class-text"><h2>Guest-2#4</h2></div><!-- АККАУНТ -->
+            <div class="account-class-text"><h3>Guest-2#4</h3></div><!-- АККАУНТ -->
         </div>
     </header>
     <!-- main-body -->
     <div class="main-body-class">
         <div class="sidebar">
-            <div class="folder"></div>
+            <div class="hide-sidebar"></div>
+
+             <a onclick="createNote();return false;">
+                <div class="create-class" id="id_create_div">
+                    <h3>Создать заметку</h3>
+                </div>
+             </a>
+
+             <div class="folder">
+                 <h3>Создать папку</h3>
+             </div>
+             <div class="folder-about">
+                 <h3>Все папки</h3>
+             </div>
         </div>
         <div class="tabcontent-all">
 
@@ -267,10 +280,10 @@
             </div>
         </div>
 
-        <!-- create note div -->
+        <!-- old create note div -->
 
        <a onclick="createNote();return false;">
-            <div class="create-class" id="id_create_div">
+            <div class="create-class-2" id="id_create_div_2">
                 <h3>Создать заметку</h3>
             </div>
         </a>
