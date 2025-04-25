@@ -72,7 +72,7 @@
 .search-class-area:focus {
     border-color: rgb(200, 150, 200); /* Фиолетовый цвет как в дизайне */
     outline: none; /* Убираем стандартный outline */
-    box-shadow: 0 0 0 2px rgba(210, 160, 210, 0.3); /* Свечение */
+    box-shadow: 0 0 0 2px rgba(210, 160, 210, 0.7); /* Свечение */
 }
 
 .search-class-button{
@@ -179,19 +179,36 @@
     border-radius: 8px;
     text-align: center;
 }
-
-.create-class-2{
-    display: none;
-    background: rgb(200, 200, 200);
+.create-class:hover{
+    width: 207px;
+    background: rgb(250, 250, 250);
     position: fixed;
-    bottom: 100px;
-    right: 100px;
+    top: 120px;
     padding-left: 15px;
 	padding-right: 15px;
 	overflow: hidden;
     border: 1px solid rgb(150, 90, 150); /*rgb(100, 50, 100)*/
     z-index: 100;
     border-radius: 8px;
+    text-align: center;
+
+    cursor: pointer; /* Меняем курсор */
+    box-shadow: 0 0 0 2px rgba(210, 160, 210, 0.7);
+}
+
+
+.create-class-2{
+    display: none;
+    /*background: rgb(200, 200, 200);
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    padding-left: 15px;
+	padding-right: 15px;
+	overflow: hidden;*/
+    /*border: 1px solid rgb(150, 90, 150);*/ /*rgb(100, 50, 100)*/
+    /*z-index: 100;
+    border-radius: 8px;*/
 }
 
 .footer-class {
@@ -237,6 +254,8 @@
     background-color: white;
     padding: 20px;
     z-index: 1000;
+    border-radius: 10px;
+
 }
 
 #overlay, #overlay-view {
@@ -309,11 +328,9 @@
 
 .tabcontent-all {
     display: inline-block;
-    /*width: 1500px;*/
-    /*flex:1;*/
-    /*background: rgb(200, 200, 200);*/
     box-sizing: border-box;
     overflow-y: auto;
+    padding-bottom: 30px;
 
 
 
@@ -337,11 +354,13 @@
 /*  */
 
 
+
 .hide-sidebar{
     width: 240px;
     height: 240px;
 }
-.folder{
+
+.folder-create{
     width: 207px;
 
     background: rgb(250, 250, 250);
@@ -355,7 +374,26 @@
     border-radius: 8px;
     text-align: center;
 }
-.folder-about{
+.folder-create:hover{
+    width: 207px;
+
+    background: rgb(250, 250, 250);
+    position: fixed;
+    top: 200px;
+    padding-left: 15px;
+	padding-right: 15px;
+	overflow: hidden;
+    border: 1px solid rgb(150, 90, 150); /*rgb(100, 50, 100)*/
+    z-index: 100;
+    border-radius: 8px;
+    text-align: center;
+
+    cursor: pointer; /* Меняем курсор */
+    box-shadow: 0 0 0 2px rgba(210, 160, 210, 0.7);
+}
+
+
+.folder-name{
     width: 207px;
 
     background: rgb(200, 200, 200);
@@ -369,7 +407,23 @@
     border-radius: 8px;
     text-align: center;
 }
+.folder-name:hover{
+    width: 207px;
 
+    background: rgb(200, 200, 200);
+    position: fixed;
+    top: 280px;
+    padding-left: 15px;
+	padding-right: 15px;
+	overflow: hidden;
+    border: 1px solid rgb(150, 90, 150); /*rgb(100, 50, 100)*/
+    z-index: 100;
+    border-radius: 8px;
+    text-align: center;
+
+    cursor: pointer; /* Меняем курсор */
+    box-shadow: 0 0 0 2px rgba(210, 160, 210, 0.7);
+}
 
 
 
